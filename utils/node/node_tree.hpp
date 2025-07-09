@@ -35,10 +35,10 @@ namespace utils
         Status m_status = Status::Uninitialized;
 
     protected:
-        NodeTree() = default;
+        inline NodeTree() = default;
 
     public:
-        ~NodeTree() override = default;
+        inline ~NodeTree() override = default;
 
     protected:
         /// @brief 当节点树初始化时
@@ -61,6 +61,18 @@ namespace utils
 
         /// @brief 强行移除根节点
         void _remove_root();
+
+        /// @brief 请求进入节点树
+        /// @param node 节点对象
+        void _request_enter_tree(const TreeNodeRef &node) const;
+
+        /// @brief 请求准备就绪
+        /// @param node 节点对象
+        void _request_ready(const TreeNodeRef &node) const;
+
+        /// @brief 请求退出节点树
+        /// @param node 节点对象
+        void _request_exit_tree(const TreeNodeRef &node) const;
 
     public:
         /// @brief 转换成字符串

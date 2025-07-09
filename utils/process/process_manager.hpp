@@ -31,6 +31,25 @@ namespace utils
         inline bool is_paused() const { return m_paused; }
         inline double get_time_scale() const { return m_time_scale; }
         inline void set_time_scale(double time_scale) { m_time_scale = time_scale; }
+
+    protected:
+        /// @brief 让Processable对象进行更新
+        /// @param processable 对象
+        /// @param delta 时间增量
+        inline void _request_process(Processable &processable, double delta) const
+        {
+            if (processable.is_process_enabled())
+                processable._process(delta * m_time_scale);
+        }
+
+        /// @brief 让Processable对象进行更新
+        /// @param processable 对象
+        /// @param delta 时间增量
+        inline void _request_physics_process(Processable &processable, double delta) const
+        {
+            if (processable.is_physics_process_enabled())
+                processable._physics_process(delta * m_time_scale);
+        }
     };
 
 } // namespace utils

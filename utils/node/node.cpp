@@ -107,14 +107,14 @@ namespace utils
 
         // 不能查找空对象
         if (!node)
-            throw BASE_NODE_MAKE_ERROR("Unable to find an invalid object", self, node);
+            throw UTILS_NODE_MAKE_ERROR("Unable to find an invalid object", self, node);
         // 只能查找子节点
         if (node->get_parent().lock().get() != this)
-            throw BASE_NODE_MAKE_ERROR("This node is not its parent", self, node);
+            throw UTILS_NODE_MAKE_ERROR("This node is not its parent", self, node);
         // 子节点有对父节点的引用，但是父节点没有对子节点的引用
         auto iter = _find_child(node);
         if (iter == m_children.end())
-            throw BASE_NODE_MAKE_ERROR("Unable to find the node", self, node);
+            throw UTILS_NODE_MAKE_ERROR("Unable to find the node", self, node);
 
         return iter;
     }
@@ -125,14 +125,14 @@ namespace utils
 
         // 不能查找空对象
         if (!node)
-            throw BASE_NODE_MAKE_ERROR("Unable to find an invalid object", self, node);
+            throw UTILS_NODE_MAKE_ERROR("Unable to find an invalid object", self, node);
         // 只能查找子节点
         if (node->get_parent().lock().get() != this)
-            throw BASE_NODE_MAKE_ERROR("This node is not its parent", self, node);
+            throw UTILS_NODE_MAKE_ERROR("This node is not its parent", self, node);
         // 子节点有对父节点的引用，但是父节点没有对子节点的引用
         auto iter = _find_child(node);
         if (iter == m_children.cend())
-            throw BASE_NODE_MAKE_ERROR("Unable to find the node", self, node);
+            throw UTILS_NODE_MAKE_ERROR("Unable to find the node", self, node);
 
         return iter;
     }
@@ -157,13 +157,13 @@ namespace utils
 
         // 待添加节点不能是空对象
         if (!node)
-            throw BASE_NODE_MAKE_ERROR("Cannot add a null object as a child node", self, node);
+            throw UTILS_NODE_MAKE_ERROR("Cannot add a null object as a child node", self, node);
         // 待添加节点不能是自己
         if (node.get() == this)
-            throw BASE_NODE_MAKE_ERROR("Cannot add self as a child node", self, node);
+            throw UTILS_NODE_MAKE_ERROR("Cannot add self as a child node", self, node);
         // 待添加节点必须是独立的
         if (!node->is_root())
-            throw BASE_NODE_MAKE_ERROR("Cannot add an existing parent node as a child node", self, node);
+            throw UTILS_NODE_MAKE_ERROR("Cannot add an existing parent node as a child node", self, node);
 
         _add_child(node);
         _link_child(node);
@@ -188,14 +188,14 @@ namespace utils
 
         // 待移除节点不能是空对象
         if (!node)
-            throw BASE_NODE_MAKE_ERROR("Cannot remove a null object", self, node);
+            throw UTILS_NODE_MAKE_ERROR("Cannot remove a null object", self, node);
         // 只能移除子节点
         if (node->get_parent().lock().get() != this)
-            throw BASE_NODE_MAKE_ERROR("This node is not its parent", self, node);
+            throw UTILS_NODE_MAKE_ERROR("This node is not its parent", self, node);
         // 子节点有对父节点的引用，但是父节点没有对子节点的引用
         auto iter = _find_child(node);
         if (iter == m_children.end())
-            throw BASE_NODE_MAKE_ERROR("Unable to find the node", self, node);
+            throw UTILS_NODE_MAKE_ERROR("Unable to find the node", self, node);
 
         _remove_child(iter);
         _unlink_child(node);

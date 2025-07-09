@@ -24,13 +24,10 @@ namespace utils
         bool m_is_ready = false;
 
     protected:
-        TreeNode() = default;
+        inline TreeNode() = default;
 
     public:
-        ~TreeNode() override
-        {
-            _reset_tree();
-        }
+        inline ~TreeNode() override { _reset_tree(); }
 
     protected:
         /// @brief 当进入节点树时
@@ -57,19 +54,19 @@ namespace utils
         /// @brief 解除与节点树的联系
         void _reset_tree();
 
+        /// @brief 请求进入节点树
+        void _request_enter_tree();
+
+        /// @brief 请求准备就绪
+        void _request_ready();
+
+        /// @brief 请求退出节点树
+        void _request_exit_tree();
+
     public:
         /// @brief 转换成字符串
         /// @return 转换后的字符串
         std::string to_string() const override;
-
-        /// @brief 请求进入节点树
-        void request_enter_tree();
-
-        /// @brief 请求准备就绪
-        void request_ready();
-
-        /// @brief 请求退出节点树
-        void request_exit_tree();
 
         /// @brief 与父节点分离，会解除双方的引用
         void detach_from_parent() override;

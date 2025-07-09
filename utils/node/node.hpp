@@ -5,7 +5,7 @@
 #include <base/core/reference_object.hpp>
 #include <base/misc/printable_object.hpp>
 
-#define BASE_NODE_MAKE_ERROR(message, self, node) \
+#define UTILS_NODE_MAKE_ERROR(message, self, node) \
     BASE_MAKE_RUNTIME_ERROR(message, "\nself: ", self, "\nnode: ", node)
 
 namespace utils
@@ -33,10 +33,10 @@ namespace utils
         NodeWeakRef m_root;
 
     protected:
-        Node() = default;
+        inline Node() = default;
 
     public:
-        ~Node() override = default;
+        inline ~Node() override = default;
 
     protected:
         /// @brief 当被附加到父级节点时

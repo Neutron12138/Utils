@@ -27,6 +27,68 @@ namespace utils
         m_tree.reset();
     }
 
+    void TreeNode::_request_enter_tree()
+    {
+        // 本节点必须在节点树中
+        if (m_tree.expired())
+            throw std::runtime_error("This node must be in the NodeTree");
+
+        _on_enter_tree(m_tree.lock());
+
+        for (auto &node : get_children())
+        {
+            auto child = base::get_if<TreeNode>(node);
+            if (!child)
+                continue;
+
+            child->_request_enter_tree();
+        }
+    }
+
+    void TreeNode::_request_ready()
+    {
+        // 本节点必须在节点树中
+        if (m_tree.expired())
+            throw std::runtime_error("This node must be in the NodeTree");
+
+        for (auto &node : get_children())
+        {
+            auto child = base::get_if<TreeNode>(node);
+            if (!child)
+                continue;
+
+            child->_request_ready();
+        }
+
+        // 如果本节点已就绪
+        if (m_is_ready)
+            return;
+
+        _on_ready();
+        m_is_ready = true;
+    }
+
+    void TreeNode::_request_exit_tree()
+    {
+        // 本节点必须在节点树中
+        if (m_tree.expired())
+            throw std::runtime_error("This node must be in the NodeTree");
+
+        _on_exit_tree(m_tree.lock());
+
+        for (auto &node : get_children())
+        {
+            auto child = base::get_if<TreeNode>(node);
+            if (!child)
+                continue;
+
+            child->_request_exit_tree();
+        }
+
+        // 解除对节点树的引用
+        _reset_tree();
+    }
+
     //
     // 公共接口
     //
@@ -55,74 +117,12 @@ namespace utils
         return sstr.str();
     }
 
-    void TreeNode::request_enter_tree()
-    {
-        // 本节点必须在节点树中
-        if (m_tree.expired())
-            throw std::runtime_error("This node must be in the NodeTree");
-
-        _on_enter_tree(m_tree.lock());
-
-        for (auto &node : get_children())
-        {
-            auto child = base::get_if<TreeNode>(node);
-            if (!child)
-                continue;
-
-            child->request_enter_tree();
-        }
-    }
-
-    void TreeNode::request_ready()
-    {
-        // 本节点必须在节点树中
-        if (m_tree.expired())
-            throw std::runtime_error("This node must be in the NodeTree");
-
-        for (auto &node : get_children())
-        {
-            auto child = base::get_if<TreeNode>(node);
-            if (!child)
-                continue;
-
-            child->request_ready();
-        }
-
-        // 如果本节点已就绪
-        if (m_is_ready)
-            return;
-
-        _on_ready();
-        m_is_ready = true;
-    }
-
-    void TreeNode::request_exit_tree()
-    {
-        // 本节点必须在节点树中
-        if (m_tree.expired())
-            throw std::runtime_error("This node must be in the NodeTree");
-
-        _on_exit_tree(m_tree.lock());
-
-        for (auto &node : get_children())
-        {
-            auto child = base::get_if<TreeNode>(node);
-            if (!child)
-                continue;
-
-            child->request_exit_tree();
-        }
-
-        // 解除对节点树的引用
-        _reset_tree();
-    }
-
     void TreeNode::detach_from_parent()
     {
         Node::detach_from_parent();
 
         if (is_in_tree())
-            request_exit_tree();
+            _request_exit_tree();
     }
 
     void TreeNode::add_child(const NodeRef &node)
@@ -133,14 +133,14 @@ namespace utils
         auto child = base::get_if<TreeNode>(node);
         // 不能添加空对象或非TreeNode节点
         if (!child)
-            throw BASE_NODE_MAKE_ERROR("Cannot add a non-TreeNode node as a child node", self, node);
+            throw UTILS_NODE_MAKE_ERROR("Cannot add a non-TreeNode node as a child node", self, node);
         // 不能添加节点树里的节点
         if (child->is_in_tree())
-            throw BASE_NODE_MAKE_ERROR("Cannot add a node which in tree as a child node", self, node);
+            throw UTILS_NODE_MAKE_ERROR("Cannot add a node which in tree as a child node", self, node);
         // 节点树初始化时，新增节点可能无法遍历到
         if (tree)
             if (tree->get_status() == NodeTree::Status::Initializing)
-                throw BASE_NODE_MAKE_ERROR("Cannot add node during NodeTree initialization", self, node);
+                throw UTILS_NODE_MAKE_ERROR("Cannot add node during NodeTree initialization", self, node);
 
         Node::add_child(node);
 
@@ -151,8 +151,8 @@ namespace utils
         if (tree->get_status() == NodeTree::Status::Ready)
         {
             // 手动调用
-            child->request_enter_tree();
-            child->request_ready();
+            child->_request_enter_tree();
+            child->_request_ready();
         }
     }
 
@@ -167,7 +167,7 @@ namespace utils
 
         // 通知子节点退出节点树
         if (child->is_in_tree())
-            child->request_exit_tree();
+            child->_request_exit_tree();
     }
 
     void TreeNode::clear_children()
@@ -181,7 +181,7 @@ namespace utils
 
             // 通知子节点退出节点树
             if (child->is_in_tree())
-                child->request_exit_tree();
+                child->_request_exit_tree();
         }
         Node::clear_children();
     }
