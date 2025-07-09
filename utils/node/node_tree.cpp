@@ -26,52 +26,16 @@ namespace utils
 
     void NodeTree::_request_enter_tree(const TreeNodeRef &node) const
     {
-        auto self = shared_from_this();
-
-        // 检查对象是否有效
-        if (!node)
-            throw UTILS_NODE_MAKE_ERROR("Cannot notify an empty node", self, node);
-        // 节点必须在节点树中
-        if (node->m_tree.expired())
-            throw UTILS_NODE_MAKE_ERROR("This node must be in the NodeTree", self, node);
-        // 确保节点的节点树是自身
-        if (node->m_tree.lock() != self)
-            throw UTILS_NODE_MAKE_ERROR("This node is not in the current node tree", self, node);
-
         node->_request_enter_tree();
     }
 
     void NodeTree::_request_ready(const TreeNodeRef &node) const
     {
-        auto self = shared_from_this();
-
-        // 检查对象是否有效
-        if (!node)
-            throw UTILS_NODE_MAKE_ERROR("Cannot notify an empty node", self, node);
-        // 节点必须在节点树中
-        if (node->m_tree.expired())
-            throw UTILS_NODE_MAKE_ERROR("This node must be in the NodeTree", self, node);
-        // 确保节点的节点树是自身
-        if (node->m_tree.lock() != self)
-            throw UTILS_NODE_MAKE_ERROR("This node is not in the current node tree", self, node);
-
         node->_request_enter_tree();
     }
 
     void NodeTree::_request_exit_tree(const TreeNodeRef &node) const
     {
-        auto self = shared_from_this();
-
-        // 检查对象是否有效
-        if (!node)
-            throw UTILS_NODE_MAKE_ERROR("Cannot notify an empty node", self, node);
-        // 节点必须在节点树中
-        if (node->m_tree.expired())
-            throw UTILS_NODE_MAKE_ERROR("This node must be in the NodeTree", self, node);
-        // 确保节点的节点树是自身
-        if (node->m_tree.lock() != self)
-            throw UTILS_NODE_MAKE_ERROR("This node is not in the current node tree", self, node);
-
         node->_request_enter_tree();
     }
 
