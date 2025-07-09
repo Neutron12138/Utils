@@ -26,7 +26,7 @@ int main()
 
     try
     {
-        utils::FastImage::load_from_file("114.jpg");
+        utils::FastImage("114.jpg");
     }
     catch (const std::exception &e)
     {
@@ -34,24 +34,27 @@ int main()
                   << std::endl;
     }
 
-    utils::FastImageRef image = utils::FastImage::load_from_file("wall.jpg");
-    std::cout << "width: " << image->get_width() << std::endl
-              << "height: " << image->get_height() << std::endl
-              << "format: " << static_cast<base::Int32>(image->get_format()) << std::endl;
-    base::UInt8 *data = const_cast<base::UInt8 *>(image->get_raw_pixels());
-    utils::PixelRGB *pixels = reinterpret_cast<utils::PixelRGB *>(data);
+    auto image = utils::FastImage("wall.jpg");
+    std::cout << "width: " << image.get_width() << std::endl
+              << "height: " << image.get_height() << std::endl
+              << "format: " << static_cast<base::Int32>(image.get_format()) << std::endl;
+    const stbi_uc *data = reinterpret_cast<const stbi_uc *>(image.get_raw_pixels());
+    const utils::PixelRGB *pixels = reinterpret_cast<const utils::PixelRGB *>(data);
     std::cout << pixels[0] << ", " << pixels[1] << std::endl;
-    image->save_as_png("wall_2.png");
+    image.save_as_png("wall_2.png");
     std::cout << std::endl;
 
     try
     {
-        image->save_as_png("");
+        image.save_as_png("");
     }
     catch (const std::exception &e)
     {
         std::cout << e.what() << std::endl;
     }
+
+    image.destroy();
+    std::cout << image.is_valid() << std::endl;
 
     return 0;
 }
