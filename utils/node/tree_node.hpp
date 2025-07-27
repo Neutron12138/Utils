@@ -24,27 +24,27 @@ namespace utils
         bool m_is_ready = false;
 
     protected:
-        inline TreeNode() = default;
+        TreeNode() = default;
 
     public:
-        inline ~TreeNode() override { _reset_tree(); }
+        ~TreeNode() override;
 
     protected:
         /// @brief 当进入节点树时
         /// @param tree 节点树
-        virtual void _on_enter_tree(const NodeTreeRef &tree) {}
+        virtual void _on_enter_tree(const NodeTreeRef &tree);
 
         /// @brief 当所有子节点ready时
-        virtual void _on_ready() {}
+        virtual void _on_ready();
 
         /// @brief 当退出节点树时
         /// @param tree 节点树
-        virtual void _on_exit_tree(const NodeTreeRef &tree) {}
+        virtual void _on_exit_tree(const NodeTreeRef &tree);
 
     public:
-        inline bool is_in_tree() const { return !m_tree.expired(); }
-        inline const NodeTreeWeakRef &get_tree() const { return m_tree; }
-        inline bool is_ready() const { return m_is_ready; }
+        bool is_in_tree() const;
+        const NodeTreeWeakRef &get_tree() const;
+        bool is_ready() const;
 
     protected:
         /// @brief 递归设置根节点

@@ -8,7 +8,7 @@ namespace utils
     BASE_DECLARE_REF_TYPE(FrameManager);
 
     /// @brief 帧管理器，管理更新频率
-    class FrameManager : public TimeManager<std::chrono::steady_clock>
+    class FrameManager : public SteadyTimeManager
     {
     public:
         /// @brief 帧率类型
@@ -25,23 +25,23 @@ namespace utils
         base::Size m_frame_count = 0;
 
     public:
-        inline FrameManager() = default;
-        inline ~FrameManager() override = default;
+        FrameManager() = default;
+        ~FrameManager() override = default;
 
     protected:
         /// @brief 自启动以来的第一帧
-        virtual void _on_first_frame() {}
+        virtual void _on_first_frame();
 
         /// @brief 当空闲帧更新时
         /// @param delta 时间间隔
-        virtual void _on_frame_updated(double delta) {}
+        virtual void _on_frame_updated(double delta);
 
     public:
-        inline const TimePoint &get_last_update_time() const { return m_last_update_time; }
-        inline double get_update_interval() const { return m_update_interval; }
-        inline void set_update_interval(double update_interval) { m_update_interval = update_interval; }
-        inline double get_last_update_delta() const { return m_last_update_delta; }
-        inline base::Size get_frame_count() const { return m_frame_count; }
+        const TimePoint &get_last_update_time() const;
+        double get_update_interval() const;
+        void set_update_interval(double update_interval);
+        double get_last_update_delta() const;
+        base::Size get_frame_count() const;
 
     protected:
         /// @brief 增加一帧
@@ -50,22 +50,22 @@ namespace utils
     public:
         /// @brief 获取当前帧率
         /// @return 当前帧率
-        inline FPS get_current_fps() const { return static_cast<FPS>(1.0 / m_last_update_delta); }
+        FPS get_current_fps() const;
 
         /// @brief 获取目标帧率
         /// @return 目标帧率
-        inline FPS get_target_fps() const { return static_cast<FPS>(1.0 / m_update_interval); }
+        FPS get_target_fps() const;
 
         /// @brief 设置目标帧率
         /// @param target_fps 目标帧率
-        inline void set_target_fps(FPS target_fps) { m_update_interval = 1.0 / static_cast<double>(target_fps); }
+        void set_target_fps(FPS target_fps);
 
         /// @brief 关闭帧率限制
-        inline void set_unlimited_fps() { m_update_interval = 0.0; }
+        void set_unlimited_fps();
 
         /// @brief 获取距离上一帧所经过的时间
         /// @return 距离上一帧经过的时间
-        inline double get_update_delta() const { return Duration(get_current_time() - m_last_update_time).count(); }
+        double get_update_delta() const;
 
         /// @brief 请求第一帧
         virtual void request_first_frame();

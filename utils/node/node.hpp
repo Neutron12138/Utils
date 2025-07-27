@@ -2,11 +2,11 @@
 
 #include <iostream>
 #include <vector>
-#include <base/core/reference_object.hpp>
-#include <base/misc/printable_object.hpp>
+#include <base/misc/reference_object.hpp>
+#include "../misc/printable_object.hpp"
 
 #define UTILS_NODE_MAKE_ERROR(message, self, node) \
-    BASE_MAKE_RUNTIME_ERROR(message, "\nself: ", self, "\nnode: ", node)
+    BASE_MAKE_CLASS_RUNTIME_ERROR(message, "\nself: ", self, "\nnode: ", node)
 
 namespace utils
 {
@@ -17,7 +17,7 @@ namespace utils
 
     /// @brief 节点对象
     class Node : virtual public base::ReferenceObject,
-                 public base::PrintableObject
+                 public PrintableObject
     {
     public:
         /// @brief 创建一个节点对象
@@ -33,27 +33,27 @@ namespace utils
         NodeWeakRef m_root;
 
     protected:
-        inline Node() = default;
+        Node() = default;
 
     public:
-        inline ~Node() override = default;
+        ~Node() override = default;
 
     protected:
         /// @brief 当被附加到父级节点时
         /// @param new_parent 新父级
-        virtual void _on_attached_to_parent(const NodeRef &new_parent) {}
+        virtual void _on_attached_to_parent(const NodeRef &new_parent);
 
         /// @brief 当从父级节点脱离时
         /// @param old_parent 旧父级
-        virtual void _on_detached_from_parent(const NodeRef &old_parent) {}
+        virtual void _on_detached_from_parent(const NodeRef &old_parent);
 
     public:
-        inline bool is_child() const { return !m_parent.expired(); }
-        inline bool is_root() const { return m_root.lock().get() == this; }
-        inline bool has_children() const { return !m_children.empty(); }
-        inline const NodeWeakRef &get_parent() const { return m_parent; }
-        inline const NodeArray &get_children() const { return m_children; }
-        inline const NodeWeakRef &get_root() const { return m_root; }
+        bool is_child() const;
+        bool is_root() const;
+        bool has_children() const;
+        const NodeWeakRef &get_parent() const;
+        const NodeArray &get_children() const;
+        const NodeWeakRef &get_root() const;
 
     protected:
         /// @brief 连接子节点

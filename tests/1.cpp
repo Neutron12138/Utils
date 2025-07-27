@@ -1,5 +1,4 @@
 #include <iostream>
-#define BASE_DEFINE_FLOAT_TYPE
 #include "../utils/utils.hpp"
 
 class MyProcessManager : public utils::ProcessManager

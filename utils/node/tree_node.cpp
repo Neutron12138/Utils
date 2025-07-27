@@ -11,6 +11,16 @@ namespace utils
         return node;
     }
 
+    TreeNode::~TreeNode() { _reset_tree(); }
+
+    void TreeNode::_on_enter_tree(const NodeTreeRef &tree) {}
+    void TreeNode::_on_ready() {}
+    void TreeNode::_on_exit_tree(const NodeTreeRef &tree) {}
+
+    bool TreeNode::is_in_tree() const { return !m_tree.expired(); }
+    const NodeTreeWeakRef &TreeNode::get_tree() const { return m_tree; }
+    bool TreeNode::is_ready() const { return m_is_ready; }
+
     //
     // 受保护的接口
     //

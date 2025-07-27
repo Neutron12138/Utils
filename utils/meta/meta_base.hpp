@@ -3,8 +3,8 @@
 #include <any>
 #include <tuple>
 #include <base/core/ref.hpp>
-#include <base/core/polymorphic_object.hpp>
 #include <base/core/exception.hpp>
+#include <base/misc/polymorphic_object.hpp>
 
 namespace utils
 {
@@ -22,7 +22,7 @@ namespace utils
         inline ~MetaBase() override = default;
 
     public:
-        inline bool is_const() const { return m_is_const; }
+        bool is_const() const { return m_is_const; }
     };
 
 } // namespace utils

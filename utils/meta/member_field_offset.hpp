@@ -4,12 +4,7 @@
 
 namespace utils
 {
-    template <typename T>
-    class MemberFieldOffset;
-    template <typename T>
-    using MemberFieldOffsetRef = base::Ref<MemberFieldOffset<T>>;
-    template <typename T>
-    using MemberFieldOffsetWeakRef = base::WeakRef<MemberFieldOffset<T>>;
+    BASE_DECLARE_REF_TEMPLATE_TYPE(T, MemberFieldOffset);
 
     /// @brief 成员属性偏移量
     /// @tparam T 类型

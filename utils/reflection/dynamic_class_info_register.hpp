@@ -11,9 +11,9 @@ namespace utils
     class DynamicClassInfoRegister : public ClassInfoBaseRegister
     {
     public:
-        DynamicClassInfoRegister() = default;
-        DynamicClassInfoRegister(const BaseClassArray &base_classes) : ClassInfoBaseRegister(base_classes) {}
-        ~DynamicClassInfoRegister() override = default;
+        inline DynamicClassInfoRegister() = default;
+        inline DynamicClassInfoRegister(const BaseClassArray &base_classes) : ClassInfoBaseRegister(base_classes) {}
+        inline ~DynamicClassInfoRegister() override = default;
 
     public:
         template <typename T>

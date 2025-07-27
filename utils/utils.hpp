@@ -2,15 +2,25 @@
 
 #include <base/version.hpp>
 
+// io
+
+#include "io/print_container.hpp"
+#include "io/read_binary.hpp"
+#include "io/write_binary.hpp"
+#include "io/read_bytes.hpp"
+#include "io/read_string.hpp"
+
+// misc
+
+#include "misc/named_object.hpp"
+#include "misc/notifiable.hpp"
+#include "misc/printable_object.hpp"
+
 // node
 
 #include "node/node.hpp"
 #include "node/tree_node.hpp"
 #include "node/node_tree.hpp"
-
-#include "node/node.cpp"
-#include "node/tree_node.cpp"
-#include "node/node_tree.cpp"
 
 // time
 
@@ -20,9 +30,6 @@
 
 #include "frame/frame_manager.hpp"
 #include "frame/physics_frame_manager.hpp"
-
-#include "frame/frame_manager.cpp"
-#include "frame/physics_frame_manager.cpp"
 
 // process
 
@@ -58,5 +65,3 @@
 #include "reflection/class_info_register.hpp"
 #include "reflection/dynamic_class_info_register.hpp"
 #include "reflection/class_db.hpp"
-
-#include "reflection/class_info.cpp"

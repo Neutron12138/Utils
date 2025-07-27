@@ -14,26 +14,22 @@ namespace utils
         bool m_is_event_handling_enabled = true;
 
     public:
-        inline EventHandler() = default;
-        inline ~EventHandler() override = default;
+        EventHandler() = default;
+        ~EventHandler() override = default;
 
     protected:
         /// @brief 处理事件
         /// @param event 待处理事件
-        virtual void _handle_event(const EventRef &event) = 0;
+        virtual void _handle_event(const EventRef &event);
 
     public:
-        inline bool is_event_handling_enabled() const { return m_is_event_handling_enabled; }
-        inline void set_event_handling_enabled(bool enabled) { m_is_event_handling_enabled = enabled; }
+        bool is_event_handling_enabled() const;
+        void set_event_handling_enabled(bool enabled);
 
     public:
-        /// @brief 请求处理事件
+        /// @brief 收到事件
         /// @param event 待处理事件
-        virtual void request_handle_event(const EventRef &event)
-        {
-            if (m_is_event_handling_enabled)
-                _handle_event(event);
-        }
+        virtual void receive_event(const EventRef &event);
     };
 
 } // namespace utils

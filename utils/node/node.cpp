@@ -12,6 +12,16 @@ namespace utils
         return node;
     }
 
+    void Node::_on_attached_to_parent(const NodeRef &new_parent) {}
+    void Node::_on_detached_from_parent(const NodeRef &old_parent) {}
+
+    bool Node::is_child() const { return !m_parent.expired(); }
+    bool Node::is_root() const { return m_root.lock().get() == this; }
+    bool Node::has_children() const { return !m_children.empty(); }
+    const NodeWeakRef &Node::get_parent() const { return m_parent; }
+    const NodeArray &Node::get_children() const { return m_children; }
+    const NodeWeakRef &Node::get_root() const { return m_root; }
+
     //
     // 受保护的接口
     //

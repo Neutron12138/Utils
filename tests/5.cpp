@@ -1,5 +1,6 @@
 #include <iostream>
 #include "../utils/utils.hpp"
+#include "../utils/utils.cpp"
 
 struct A
 {

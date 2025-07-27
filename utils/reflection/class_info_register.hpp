@@ -4,12 +4,7 @@
 
 namespace utils
 {
-    template <typename C>
-    class ClassInfoRegister;
-    template <typename C>
-    using ClassInfoRegisterRef = base::Ref<ClassInfoRegister<C>>;
-    template <typename C>
-    using ClassInfoRegisterWeakRef = base::WeakRef<ClassInfoRegister<C>>;
+    BASE_DECLARE_REF_TEMPLATE_TYPE(C, ClassInfoRegister);
 
     /// @brief 类信息注册器
     /// @tparam C 类类型
@@ -20,9 +15,9 @@ namespace utils
         using ClassType = C;
 
     public:
-        ClassInfoRegister() = default;
-        ClassInfoRegister(const BaseClassArray &base_classes) : ClassInfoBaseRegister(base_classes) {}
-        ~ClassInfoRegister() override = default;
+        inline ClassInfoRegister() = default;
+        inline ClassInfoRegister(const BaseClassArray &base_classes) : ClassInfoBaseRegister(base_classes) {}
+        inline ~ClassInfoRegister() override = default;
 
     public:
         using ClassInfoBaseRegister::register_field;

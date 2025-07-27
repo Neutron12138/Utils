@@ -2,7 +2,7 @@
 
 #include <base/core/type.hpp>
 #include <base/core/ref.hpp>
-#include <base/core/polymorphic_object.hpp>
+#include <base/misc/polymorphic_object.hpp>
 
 namespace utils
 {
@@ -37,25 +37,25 @@ namespace utils
         bool m_is_physics_process_enabled = true;
 
     public:
-        inline Processable() = default;
-        inline ~Processable() override = default;
+        Processable() = default;
+        ~Processable() override = default;
 
     protected:
         /// @brief 空闲帧处理
         /// @param delta 距上一次处理经过的时间，会受到time_scale影响
-        virtual void _process(double delta) {}
+        virtual void _process(double delta);
 
         /// @brief 物理帧处理
         /// @param delta 距上一次处理经过的时间，会受到time_scale影响
-        virtual void _physics_process(double delta) {}
+        virtual void _physics_process(double delta);
 
     public:
-        inline void set_process_mode(ProcessMode mode) { m_process_mode = mode; }
-        inline ProcessMode get_process_mode() const { return m_process_mode; }
-        inline void set_process(bool enabled) { m_is_process_enabled = enabled; }
-        inline bool is_process_enabled() const { return m_is_process_enabled; }
-        inline void set_physics_process(bool enabled) { m_is_physics_process_enabled = enabled; }
-        inline bool is_physics_process_enabled() const { return m_is_physics_process_enabled; }
+        void set_process_mode(ProcessMode mode);
+        ProcessMode get_process_mode() const;
+        void set_process(bool enabled);
+        bool is_process_enabled() const;
+        void set_physics_process(bool enabled);
+        bool is_physics_process_enabled() const;
     };
 
 } // namespace utils

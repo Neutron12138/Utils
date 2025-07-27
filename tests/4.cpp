@@ -26,7 +26,7 @@ int main()
 
     try
     {
-        utils::FastImage("114.jpg");
+        utils::load_fast_image_from_file("114");
     }
     catch (const std::exception &e)
     {
@@ -34,7 +34,7 @@ int main()
                   << std::endl;
     }
 
-    auto image = utils::FastImage("wall.jpg");
+    auto image = utils::load_fast_image_from_file("wall.jpg");
     std::cout << "width: " << image.get_width() << std::endl
               << "height: " << image.get_height() << std::endl
               << "format: " << static_cast<base::Int32>(image.get_format()) << std::endl;

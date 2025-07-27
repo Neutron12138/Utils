@@ -6,7 +6,8 @@ set /p input=
 echo %input%.exe
 
 echo ----------Compling----------
-g++ -finput-charset=utf-8 -fexec-charset=gbk %input%.cpp -o %input%.exe
+g++ -finput-charset=utf-8 -fexec-charset=gbk %input%.cpp -o %input%.exe^
+    -L. -lutils
 
 echo ----------Running----------
 %input%.exe

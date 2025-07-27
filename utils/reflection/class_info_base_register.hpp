@@ -10,9 +10,9 @@ namespace utils
     class ClassInfoBaseRegister : public ClassInfo
     {
     public:
-        ClassInfoBaseRegister() = default;
-        ClassInfoBaseRegister(const BaseClassArray &base_classes) : ClassInfo(base_classes) {}
-        ~ClassInfoBaseRegister() = default;
+        inline ClassInfoBaseRegister() = default;
+        inline ClassInfoBaseRegister(const BaseClassArray &base_classes) : ClassInfo(base_classes) {}
+        inline ~ClassInfoBaseRegister() = default;
 
     public:
         template <typename T>

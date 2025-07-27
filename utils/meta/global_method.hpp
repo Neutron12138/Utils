@@ -1,6 +1,5 @@
 #pragma once
 
-#include <tuple>
 #include "method_base.hpp"
 
 namespace utils
@@ -35,8 +34,8 @@ namespace utils
         inline Ptr get_ptr() const { return m_ptr; }
 
     public:
-        std::any invoke(void *, const std::any &args) const override { return invoke_impl(args); }
-        std::any invoke(const void *, const std::any &args) const override { return invoke_impl(args); }
+        inline std::any invoke(void *, const std::any &args) const override { return invoke_impl(args); }
+        inline std::any invoke(const void *, const std::any &args) const override { return invoke_impl(args); }
 
         /// @brief 具体实现
         /// @param args 参数列表

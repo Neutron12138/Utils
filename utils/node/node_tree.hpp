@@ -3,14 +3,14 @@
 #include <base/core/type.hpp>
 #include "tree_node.hpp"
 
-#define BASE_NODETREE_MAKE_ERROR(message, self) \
-    BASE_MAKE_RUNTIME_ERROR(message, "\nself: ", self)
+#define UTILS_NODETREE_MAKE_ERROR(message, self) \
+    BASE_MAKE_CLASS_RUNTIME_ERROR(message, "\nself: ", self)
 
 namespace utils
 {
     /// @brief 节点树
     class NodeTree : virtual public base::ReferenceObject,
-                     public base::PrintableObject
+                     public PrintableObject
     {
     public:
         /// @brief 节点树状态
@@ -35,24 +35,24 @@ namespace utils
         Status m_status = Status::Uninitialized;
 
     protected:
-        inline NodeTree() = default;
+        NodeTree() = default;
 
     public:
-        inline ~NodeTree() override = default;
+        ~NodeTree() override = default;
 
     protected:
         /// @brief 当节点树初始化时
-        virtual void _on_initialize() {}
+        virtual void _on_initialize();
 
         /// @brief 当节点树就绪时
-        virtual void _on_ready() {}
+        virtual void _on_ready();
 
         /// @brief 当节点树结束时
-        virtual void _on_finalize() {}
+        virtual void _on_finalize();
 
     public:
-        inline const TreeNodeRef &get_root() const { return m_root; }
-        inline Status get_status() const { return m_status; }
+        const TreeNodeRef &get_root() const;
+        Status get_status() const;
 
     protected:
         /// @brief 强行设为根节点

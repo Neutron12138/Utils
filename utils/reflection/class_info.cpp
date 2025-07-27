@@ -2,32 +2,35 @@
 
 namespace utils
 {
-    template <typename... T>
-    void *ClassInfo::construct(T... args)
-    {
-        if (!m_constructor)
-            throw BASE_MAKE_RUNTIME_ERROR("No constructor");
+    ClassInfo::ClassInfo(const BaseClassArray &base_classes) : m_base_classes(base_classes) {}
 
-        return m_constructor(std::make_tuple(args...));
+    const ClassInfo::BaseClassArray &ClassInfo::get_base_classes() const { return m_base_classes; }
+    const ClassInfo::FieldDict &ClassInfo::get_field_dict() const { return m_field_dict; }
+    const ClassInfo::MethodDict &ClassInfo::get_method_dict() const { return m_method_dict; }
+    const ClassInfo::Constructor &ClassInfo::get_constructor() const { return m_constructor; }
+    const ClassInfo::Destructor &ClassInfo::get_destructor() const { return m_destructor; }
+    void ClassInfo::set_constructor(const Constructor &constructor) { m_constructor = constructor; }
+    void ClassInfo::set_destructor(const Destructor &destructor) { m_destructor = destructor; }
+
+    void ClassInfo::_set_base_class(const ClassInfoRef &base_class)
+    {
+        m_base_classes = base_class->m_base_classes;
+        m_base_classes.push_back(base_class);
     }
 
-    void ClassInfo::destruct(void *object)
+    void ClassInfo::_add_base_class(const ClassInfoRef &base_class)
     {
-        if (!m_destructor)
-            throw BASE_MAKE_RUNTIME_ERROR("No destructor");
-
-        m_destructor(object);
+        m_base_classes.push_back(base_class);
     }
 
-    template <typename... T>
-    base::AnyRef ClassInfo::create(T... args)
+    void ClassInfo::_add_field(const std::string &name, const FieldBaseRef &field)
     {
-        if (!m_constructor)
-            throw BASE_MAKE_RUNTIME_ERROR("No constructor");
-        if (!m_destructor)
-            throw BASE_MAKE_RUNTIME_ERROR("No destructor");
+        m_field_dict[name] = field;
+    }
 
-        return base::AnyRef(m_constructor(std::make_tuple(args...)), m_destructor);
+    void ClassInfo::_add_method(const std::string &name, const MethodBaseRef &method)
+    {
+        m_method_dict[name] = method;
     }
 
     //
@@ -88,20 +91,6 @@ namespace utils
         iter->second->set(object, value);
     }
 
-    template <typename... T>
-    std::any ClassInfo::call(void *object, const std::string &name, T... args) const
-    {
-        auto iter = find_method(name);
-        return iter->second->invoke(object, std::make_tuple(args...));
-    }
-
-    template <typename... T>
-    std::any ClassInfo::call(const void *object, const std::string &name, T... args) const
-    {
-        auto iter = find_method(name);
-        return iter->second->invoke(object, std::make_tuple(args...));
-    }
-
     //
     // 静态成员
     //
@@ -116,13 +105,6 @@ namespace utils
     {
         auto iter = find_field(name);
         iter->second->set(nullptr, value);
-    }
-
-    template <typename... T>
-    std::any ClassInfo::call(const std::string &name, T... args) const
-    {
-        auto iter = find_method(name);
-        return iter->second->invoke(static_cast<void *>(nullptr), std::make_tuple(args...));
     }
 
 } // namespace utils

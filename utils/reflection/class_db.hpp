@@ -4,6 +4,8 @@
 
 namespace utils
 {
+    BASE_DECLARE_REF_TYPE(ClassDB);
+
     /// @brief 类数据库
     class ClassDB
     {
@@ -13,29 +15,18 @@ namespace utils
 
     private:
         /// @brief 类信息字典
-        ClassInfoDict m_class_info_dict;
+        ClassInfoDict m_class_info_dict = {};
 
     public:
         ClassDB() = default;
         ~ClassDB() = default;
 
     public:
-        inline const ClassInfoDict &get_class_info_dict() const { return m_class_info_dict; }
+        const ClassInfoDict &get_class_info_dict() const;
 
     public:
-        inline void register_class(const std::string &name, const ClassInfoRef &class_info)
-        {
-            m_class_info_dict[name] = class_info;
-        }
-
-        ClassInfoConstIterator find_class(const std::string &name)
-        {
-            auto iter = m_class_info_dict.find(name);
-            if (iter == m_class_info_dict.cend())
-                throw BASE_MAKE_RUNTIME_ERROR("Unable to find class, class name: \"", name, "\"");
-
-            return iter;
-        }
+        void register_class(const std::string &name, const ClassInfoRef &class_info);
+        ClassInfoConstIterator find_class(const std::string &name);
     };
 
 } // namespace utils

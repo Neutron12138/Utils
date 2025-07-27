@@ -4,12 +4,7 @@
 
 namespace utils
 {
-    template <typename T>
-    class GlobalField;
-    template <typename T>
-    using GlobalFieldRef = base::Ref<GlobalField<T>>;
-    template <typename T>
-    using GlobalFieldWeakRef = base::WeakRef<GlobalField<T>>;
+    BASE_DECLARE_REF_TEMPLATE_TYPE(T, GlobalField);
 
     /// @brief 普通属性
     /// @tparam T 类型

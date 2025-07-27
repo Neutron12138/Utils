@@ -1,8 +1,6 @@
 #pragma once
 
-#include <any>
-#include <base/core/ref.hpp>
-#include <base/core/polymorphic_object.hpp>
+#include "meta_base.hpp"
 
 namespace utils
 {

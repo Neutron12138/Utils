@@ -11,6 +11,13 @@ namespace utils
         return tree;
     }
 
+    void NodeTree::_on_initialize() {}
+    void NodeTree::_on_ready() {}
+    void NodeTree::_on_finalize() {}
+
+    const TreeNodeRef &NodeTree::get_root() const { return m_root; }
+    NodeTree::Status NodeTree::get_status() const { return m_status; }
+
     void NodeTree::_set_root(const TreeNodeRef &root)
     {
         root->m_tree = as<NodeTree>();
@@ -59,7 +66,7 @@ namespace utils
     {
         // 只有在未被初始化时才能初始化
         if (m_status != Status::Uninitialized)
-            throw BASE_NODETREE_MAKE_ERROR("The NodeTree has been initialized", as<NodeTree>());
+            throw UTILS_NODETREE_MAKE_ERROR("The NodeTree has been initialized", as<NodeTree>());
 
         // 初始化
         m_status = Status::Initializing;
@@ -76,7 +83,7 @@ namespace utils
     {
         // 只有准备就绪后才能结束
         if (m_status != Status::Ready)
-            throw BASE_NODETREE_MAKE_ERROR("The NodeTree has not been initialized yet", as<NodeTree>());
+            throw UTILS_NODETREE_MAKE_ERROR("The NodeTree has not been initialized yet", as<NodeTree>());
 
         // 结束
         m_root->_request_exit_tree();
